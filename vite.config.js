@@ -13,6 +13,8 @@ export default defineConfig({
     vueDevTools(),
     Components({
       dts: true,
+      dirs: ['src/components'],
+      deep: true,               
       resolvers: [MotionResolver()],
     }),
   ],

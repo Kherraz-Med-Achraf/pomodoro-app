@@ -17,6 +17,7 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.1",
     "sass": "^1.86.0",
+    "unplugin-vue-components": "^28.4.1",
     "vite": "^6.2.1",
     "vite-plugin-vue-devtools": "^7.7.2"
   }

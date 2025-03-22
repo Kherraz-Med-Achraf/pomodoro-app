@@ -1,13 +1,12 @@
 <template>
   <div class="pomodoro-app">
     <h1 class="title">Pomodoro</h1>
-    <span>Selecteur</span>
+    <SelectMode />
     <PomodoroTimer />
   </div>
 </template>
 
 <script setup>
-import PomodoroTimer from './components/PomodoroTimer.vue'
 
 </script>
 
