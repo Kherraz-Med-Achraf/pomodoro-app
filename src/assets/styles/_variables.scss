@@ -45,9 +45,21 @@ $body2-line-height: 14px;
 }
 
 @mixin heading($level, $font) {
+  font-family: if(
+    $font == primary,
+    $font-primary,
+    if(
+      $font == secondary,
+      $font-secondary,
+      if($font == mono, $font-mono, $font-primary)
+    )
+  );
+  font-weight: bold;
+
   @if $level == 1 {
     font-size: $h1-mobile-size;
     letter-spacing: -4px;
+
     @media (min-width: 768px) {
       font-size: $h1-size;
       letter-spacing: -5px;
@@ -66,18 +78,8 @@ $body2-line-height: 14px;
     letter-spacing: 5px;
     text-transform: uppercase;
   }
-
-  font-family: if(
-    $font == primary,
-    $font-primary,
-    if(
-      $font == secondary,
-      $font-secondary,
-      if($font == mono, $font-mono, $font-primary)
-    )
-  );
-  font-weight: bold;
 }
+
 @mixin body($level) {
   @if $level == 1 {
     font-family: $font-secondary;
