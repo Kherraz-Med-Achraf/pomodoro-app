@@ -17,9 +17,9 @@
             :transform="`rotate(-90 ${center} ${center})`"
           />
         </svg>
-        <div class="timer-text">
-          <h1>{{ formattedTime }}</h1>
-          <h3>Pause</h3>
+        <div class="timer-text" @click="pomodoroStore.handleClickOnTimer">
+          <h1>{{ pomodoroStore.formattedTime }}</h1>
+          <h3>{{ pomodoroStore.status }}</h3>
         </div>
       </div>
     </div>
@@ -29,35 +29,20 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from "vue";
 import { motion } from "motion-v";
+import { usePomodoroStore } from '@/stores/pomodoro'
+
+const pomodoroStore = usePomodoroStore()
 
 const size = 248.05;
 const strokeWidth = 10;
-const totalSeconds = 60;
-
-const timeLeft = ref(totalSeconds);
-let intervalId = null;
 
 const center = computed(() => size / 2);
 const radius = computed(() => (size - strokeWidth) / 2);
 const circumference = computed(() => 2 * Math.PI * radius.value);
 const circOffset = computed(
-  () => circumference.value * (1 - timeLeft.value / totalSeconds)
+  () => circumference.value * (1 - pomodoroStore.remainingTime / pomodoroStore.totalSeconds)
 );
 
-const formattedTime = computed(() => {
-    const m = String(Math.floor(timeLeft.value / 60)).padStart(2, "0");
-    const s = String(timeLeft.value % 60).padStart(2, "0");
-    return `${m}:${s}`;
-});
-
-onMounted(() => {
-  intervalId = setInterval(() => {
-    if (timeLeft.value > 0) timeLeft.value--;
-    else clearInterval(intervalId);
-  }, 1000);
-});
-
-onUnmounted(() => clearInterval(intervalId));
 </script>
 
 <style scoped lang="scss">
