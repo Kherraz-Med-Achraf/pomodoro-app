@@ -6,7 +6,7 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 
   // Durées en minutes
   const pomodoroDuration = ref(0.0833);
-  const shortBreakDuration = ref(0.5);
+  const shortBreakDuration = ref(0.05);
   const longBreakDuration = ref(0.1667);
 
   // Nouveau : nombre de courtes pauses avant une longue pause
@@ -25,6 +25,9 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 
   // Variable to store the interval ID
   let timerInterval = null;
+
+  // Détermine si l'on enchaîne automatiquement les sessions (cycle complet) ou si l'on exécute une session manuelle unique
+  const autoCycle = ref(true);
 
   // ################################## Getters #######################################
 
@@ -86,10 +89,18 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
       longBreakDuration.value = lDur;
       shortBreaksBeforeLong.value = shortBreakIterations;
 
-      // On réinitialise le contexte de session
-      currentSession.value = "pomodoro";
-      remainingTime.value = Math.round(pomodoroDuration.value * 60);
-      completedPomodoros.value = 0;
+      // Détermine si l'on doit lancer un cycle automatique ou une session manuelle
+      autoCycle.value = currentSession.value === "pomodoro";
+
+      // Réinitialise remainingTime en fonction de la session actuelle
+      if (currentSession.value === "pomodoro") {
+        remainingTime.value = Math.round(pomodoroDuration.value * 60);
+        completedPomodoros.value = 0;
+      } else if (currentSession.value === "short-break") {
+        remainingTime.value = Math.round(shortBreakDuration.value * 60);
+      } else if (currentSession.value === "long-break") {
+        remainingTime.value = Math.round(longBreakDuration.value * 60);
+      }
     }
 
     // Bascule l'état de fonctionnement (play/pause)
@@ -112,8 +123,16 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
     if (remainingTime.value > 0) {
       remainingTime.value--;
     } else {
-      // Quand le temps est écoulé, passe à la session suivante
-      nextSession();
+      // Lorsque le temps est écoulé
+      if (autoCycle.value) {
+        // Cycle classique Pomodoro → pauses
+        nextSession();
+      } else {
+        // Session manuelle (short-break ou long-break) : on arrête simplement le timer
+        isRunning.value = false;
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
     }
   }
 
@@ -181,6 +200,7 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
     resetTimer,
     nextSession,
     tick,
+    autoCycle,
     // expose les nouvelles refs pour un éventuel besoin futur
     shortBreaksBeforeLong,
     completedPomodoros,

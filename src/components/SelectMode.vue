@@ -20,16 +20,27 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch, nextTick } from "vue";
+import { ref, onMounted, watch, nextTick, computed } from "vue";
 import { motion } from "motion-v";
+import { usePomodoroStore } from "@/stores/pomodoro";
 
+// Map component modes to store sessions
 const modes = [
   { value: "pomodoro", text: "Pomodoro" },
-  { value: "short", text: "Short Break" },
-  { value: "long", text: "Long Break" },
+  { value: "short-break", text: "Short Break" },
+  { value: "long-break", text: "Long Break" },
 ];
 
-const currentMode = ref("pomodoro");
+const pomodoroStore = usePomodoroStore();
+
+// currentMode is directly tied to the store's currentSession
+const currentMode = computed({
+  get: () => pomodoroStore.currentSession,
+  set: (val) => {
+    pomodoroStore.currentSession = val;
+  },
+});
+
 const activeIndex = ref(0);
 const activeLayout = ref(0);
 const buttonRefs = [];
@@ -42,10 +53,25 @@ const updateLayout = () => {
 };
 
 const setMode = (mode, index) => {
+  // Update store session and UI
   currentMode.value = mode;
   activeIndex.value = index;
+  pomodoroStore.resetTimer(); // Reset timer when user manually changes mode
   nextTick(updateLayout);
 };
+
+// Keep activeIndex in sync when session changes automatically (e.g., timer ends)
+watch(
+  () => pomodoroStore.currentSession,
+  (newSession) => {
+    const idx = modes.findIndex((m) => m.value === newSession);
+    if (idx !== -1) {
+      activeIndex.value = idx;
+      nextTick(updateLayout);
+    }
+  },
+  { immediate: true }
+);
 
 onMounted(() => {
   updateLayout();
