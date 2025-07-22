@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 
 export const usePomodoroStore = defineStore("pomodoro", () => {
   // ################################## Stats #######################################
@@ -28,6 +28,56 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 
   // Détermine si l'on enchaîne automatiquement les sessions (cycle complet) ou si l'on exécute une session manuelle unique
   const autoCycle = ref(true);
+
+  // ########################### Préférences utilisateur ###########################
+
+  // Couleur accentuée (par défaut: teal)
+  const selectedColor = ref(localStorage.getItem("selectedColor") || "#70F3F8");
+
+  // Police active (primary | secondary | mono)
+  const selectedFont = ref(localStorage.getItem("selectedFont") || "primary");
+
+  // Applique immédiatement la couleur et la police stockées
+  watch(
+    selectedColor,
+    (val) => {
+      document.documentElement.style.setProperty("--accent-color", val);
+    },
+    { immediate: true }
+  );
+
+  watch(
+    selectedFont,
+    (val) => {
+      const map = {
+        primary: '"Kumbh Sans", sans-serif',
+        secondary: '"Roboto Slab", serif',
+        mono: '"Space Mono", monospace',
+      };
+      document.documentElement.style.setProperty("--font-family", map[val] || map.primary);
+    },
+    { immediate: true }
+  );
+
+  // Setters exposés
+  function setColor(color) {
+    selectedColor.value = color;
+    localStorage.setItem("selectedColor", color);
+  }
+
+  function setFont(font) {
+    selectedFont.value = font;
+    localStorage.setItem("selectedFont", font);
+  }
+
+  function setDurations(p, s, l) {
+    pomodoroDuration.value = p;
+    shortBreakDuration.value = s;
+    longBreakDuration.value = l;
+    localStorage.setItem("pomodoroDuration", p);
+    localStorage.setItem("shortBreakDuration", s);
+    localStorage.setItem("longBreakDuration", l);
+  }
 
   // ################################## Getters #######################################
 
@@ -204,5 +254,12 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
     // expose les nouvelles refs pour un éventuel besoin futur
     shortBreaksBeforeLong,
     completedPomodoros,
+
+    // Preferences
+    selectedColor,
+    selectedFont,
+    setColor,
+    setFont,
+    setDurations,
   };
 });

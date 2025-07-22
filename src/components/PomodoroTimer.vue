@@ -8,7 +8,7 @@
             :cy="center"
             :r="radius"
             fill="none"
-            stroke="#70F3F8"
+            :stroke="pomodoroStore.selectedColor"
             :stroke-width="strokeWidth"
             stroke-linecap="round"
             :stroke-dasharray="circumference"

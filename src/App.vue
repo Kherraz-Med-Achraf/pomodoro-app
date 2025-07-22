@@ -3,6 +3,7 @@
     <h1 class="title">Pomodoro</h1>
     <SelectMode />
     <PomodoroTimer />
+    <SettingsModal />
   </div>
 </template>
 

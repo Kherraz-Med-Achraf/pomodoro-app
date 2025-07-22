@@ -4,7 +4,7 @@
       v-if="activeLayout"
       layoutId="pill"
       class="pill-bg"
-      :style="{ left: `${activeLayout}px` }"
+      :style="{ left: `${activeLayout}px`, backgroundColor: pomodoroStore.selectedColor }"
     />
 
     <button
