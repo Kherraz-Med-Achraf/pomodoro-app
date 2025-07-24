@@ -17,7 +17,11 @@
             :transform="`rotate(-90 ${center} ${center})`"
           />
         </svg>
-        <div class="timer-text" @click="pomodoroStore.handleClickOnTimer">
+        <div
+          class="timer-text"
+          :class="{ 'mono-font': pomodoroStore.selectedFont === 'mono' }"
+          @click="pomodoroStore.handleClickOnTimer"
+        >
           <h1>{{ pomodoroStore.formattedTime }}</h1>
           <h3>{{ pomodoroStore.status }}</h3>
         </div>
@@ -29,20 +33,21 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from "vue";
 import { motion } from "motion-v";
-import { usePomodoroStore } from '@/stores/pomodoro'
+import { usePomodoroStore } from "@/stores/pomodoro";
 
-const pomodoroStore = usePomodoroStore()
+const pomodoroStore = usePomodoroStore();
 
 const size = 248.05;
-const strokeWidth = 10;
+const strokeWidth = 8;
 
 const center = computed(() => size / 2);
 const radius = computed(() => (size - strokeWidth) / 2);
 const circumference = computed(() => 2 * Math.PI * radius.value);
 const circOffset = computed(
-  () => circumference.value * (1 - pomodoroStore.remainingTime / pomodoroStore.totalSeconds)
+  () =>
+    circumference.value *
+    (1 - pomodoroStore.remainingTime / pomodoroStore.totalSeconds)
 );
-
 </script>
 
 <style scoped lang="scss">
@@ -80,10 +85,16 @@ const circOffset = computed(
         justify-content: center;
         align-items: center;
         h1 {
-            @include heading(1,primary);
+          @include heading(1, primary);
         }
         h3 {
-            @include heading(3,primary);
+          @include heading(3, primary);
+        }
+
+        &.mono-font {
+          h1 {
+            letter-spacing: -10px;
+          }
         }
       }
     }

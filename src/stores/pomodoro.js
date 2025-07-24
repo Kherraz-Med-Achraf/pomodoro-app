@@ -4,10 +4,16 @@ import { ref, computed, watch } from "vue";
 export const usePomodoroStore = defineStore("pomodoro", () => {
   // ################################## Stats #######################################
 
-  // Durées en minutes
-  const pomodoroDuration = ref(0.0833);
-  const shortBreakDuration = ref(0.05);
-  const longBreakDuration = ref(0.1667);
+  // Durées en minutes - Récupération depuis localStorage avec des valeurs par défaut réalistes
+  const pomodoroDuration = ref(
+    parseFloat(localStorage.getItem("pomodoroDuration")) || 25
+  );
+  const shortBreakDuration = ref(
+    parseFloat(localStorage.getItem("shortBreakDuration")) || 5
+  );
+  const longBreakDuration = ref(
+    parseFloat(localStorage.getItem("longBreakDuration")) || 15
+  );
 
   // Nouveau : nombre de courtes pauses avant une longue pause
   const shortBreaksBeforeLong = ref(4);
@@ -49,12 +55,20 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
   watch(
     selectedFont,
     (val) => {
-      const map = {
+      const fontMap = {
         primary: '"Kumbh Sans", sans-serif',
         secondary: '"Roboto Slab", serif',
         mono: '"Space Mono", monospace',
       };
-      document.documentElement.style.setProperty("--font-family", map[val] || map.primary);
+      
+      const weightMap = {
+        primary: 'bold',
+        secondary: 'bold', 
+        mono: 'normal', // Space Mono en regular
+      };
+      
+      document.documentElement.style.setProperty("--font-family", fontMap[val] || fontMap.primary);
+      document.documentElement.style.setProperty("--font-weight", weightMap[val] || weightMap.primary);
     },
     { immediate: true }
   );
@@ -116,20 +130,20 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 
   // ################################## Actions #######################################
 
-  // pDur, sDur, lDur sont des DURÉES EN MINUTES. Par défaut on utilise des valeurs très courtes pour les tests :
-  // 0.0833 min ≈ 5 s, 0.05 min ≈ 3 s, 0.1667 min ≈ 10 s
+  // pDur, sDur, lDur sont des DURÉES EN MINUTES. Par défaut on utilise les valeurs classiques Pomodoro :
+  // 25 min pour pomodoro, 5 min pour courte pause, 15 min pour longue pause
   function handleClickOnTimer(
-    pDur = 0.0833,
-    sDur = 0.05,
-    lDur = 0.1667,
+    pDur = 25,
+    sDur = 5,
+    lDur = 15,
     shortBreakIterations = 4
   ) {
     // Si le premier argument est un événement (clic), on ignore les paramètres personnalisés
     if (typeof pDur === "object" && pDur !== null) {
-      // Réaffecte les valeurs par défaut de test
-      pDur = 0.0833;
-      sDur = 0.05;
-      lDur = 0.1667;
+      // Réaffecte les valeurs par défaut classiques
+      pDur = 25;
+      sDur = 5;
+      lDur = 15;
       shortBreakIterations = 4;
     }
     // Si on est actuellement à l'arrêt, on initialise la configuration
@@ -221,6 +235,14 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
   // Réinitialiser le timer selon la session actuelle
   function resetTimer() {
     isRunning.value = false;
+    
+    // Arrêter l'intervalle s'il est en cours
+    if (timerInterval) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
+    
+    // Réinitialiser le temps selon la session actuelle
     if (currentSession.value === "pomodoro") {
       remainingTime.value = Math.round(pomodoroDuration.value * 60);
     } else if (currentSession.value === "short-break") {

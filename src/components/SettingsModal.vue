@@ -15,7 +15,7 @@
         <transition name="zoom">
           <div class="modal" @click.stop>
             <div class="top-bar">
-              <h2>Paramètres</h2>
+              <h2>Settings</h2>
               <CloseIcon class="close-icon" @click="closeModal" />
             </div>
             <hr class="divider" />
@@ -117,19 +117,30 @@
               <hr class="form-divider" />
               <div class="choice-group">
                 <h4>COLOR</h4>
-                <label v-for="c in colors" :key="c.value" class="color-option">
-                  <input type="radio" v-model="color" :value="c.hex" />
-                  <span
-                    class="swatch"
-                    :style="{ backgroundColor: c.hex }"
-                  ></span>
-                </label>
+                <div class="color-options">
+                  <label
+                    v-for="c in colors"
+                    :key="c.value"
+                    class="color-option"
+                  >
+                    <input type="radio" v-model="color" :value="c.hex" />
+                    <span class="swatch" :style="{ backgroundColor: c.hex }">
+                      <CheckIcon
+                        class="check-icon"
+                        :class="{ visible: color === c.hex }"
+                      />
+                    </span>
+                  </label>
+                </div>
               </div>
-
-              <div class="btn-group">
-                <button type="button" @click="closeModal">Annuler</button>
-                <button type="submit">Appliquer</button>
-              </div>
+              <button
+                type="submit"
+                class="apply-btn"
+                @click="applySettings"
+                :style="{ backgroundColor: color }"
+              >
+                Apply
+              </button>
             </form>
           </div>
         </transition>
@@ -145,17 +156,18 @@ import GearIcon from "@/assets/icons/Gear.svg";
 import CloseIcon from "@/assets/icons/Close.svg";
 import ArrowUpIcon from "@/assets/icons/ArrowUp.svg";
 import ArrowDownIcon from "@/assets/icons/ArrowDown.svg";
+import CheckIcon from "@/assets/icons/checked.svg";
 const store = usePomodoroStore();
 
-const isOpen = ref(true);
+const isOpen = ref(false);
 
 function openModal() {
   // Synchronise les valeurs locales avec l'état actuel du store
-  pomodoro.value = store.pomodoroDuration.value;
-  shortBreak.value = store.shortBreakDuration.value;
-  longBreak.value = store.longBreakDuration.value;
-  font.value = store.selectedFont.value;
-  color.value = store.selectedColor.value;
+  pomodoro.value = store.pomodoroDuration;
+  shortBreak.value = store.shortBreakDuration;
+  longBreak.value = store.longBreakDuration;
+  font.value = store.selectedFont;
+  color.value = store.selectedColor;
   isOpen.value = true;
 }
 
@@ -164,12 +176,12 @@ function closeModal() {
 }
 
 // Valeurs locales initialisées depuis le store
-const pomodoro = ref(store.pomodoroDuration.value);
-const shortBreak = ref(store.shortBreakDuration.value);
-const longBreak = ref(store.longBreakDuration.value);
+const pomodoro = ref(store.pomodoroDuration);
+const shortBreak = ref(store.shortBreakDuration);
+const longBreak = ref(store.longBreakDuration);
 
-const font = ref(store.selectedFont.value);
-const color = ref(store.selectedColor.value);
+const font = ref(store.selectedFont);
+const color = ref(store.selectedColor);
 
 const fonts = [
   { value: "primary", text: "Kumbh Sans", family: '"Kumbh Sans", sans-serif' },
@@ -268,8 +280,11 @@ function applySettings() {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  position: relative;
+  align-items: center;
 
   .top-bar {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -291,13 +306,16 @@ function applySettings() {
   .divider {
     border: 1px solid $color-divider;
     width: calc(100% + 48px);
-    margin-left: -24px;
   }
   form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
     .form-divider {
       border: 1px solid $color-divider;
       width: 100%;
-      margin: 24px 0;
     }
     h4 {
       @include heading(4, primary);
@@ -308,6 +326,7 @@ function applySettings() {
     .time-settings {
       display: flex;
       flex-direction: column;
+      width: 100%;
       gap: 8px;
       .field-group {
         display: flex;
@@ -360,6 +379,7 @@ function applySettings() {
     }
 
     .choice-group {
+      width: 100%;
       display: flex;
       flex-direction: column;
       gap: 18px;
@@ -390,11 +410,13 @@ function applySettings() {
             border-radius: 50%;
             background: #f4f6fa;
             color: $color-near-black;
-            @include body(1);
             font-size: 15px;
+            font-weight: bold; // Force bold pour tous les aperçus
             border: 2px solid transparent;
             transition: all 0.2s;
             user-select: none;
+            // Utilise la police héritée du label parent, pas la police centralisée
+            font-family: inherit;
           }
 
           input[type="radio"].font-radio:checked + .font-bubble {
@@ -404,21 +426,51 @@ function applySettings() {
           }
         }
       }
-      
-    }
+      .color-options {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 32px;
+        .color-option {
+          position: relative;
+          cursor: pointer;
+          input[type="radio"] {
+            // Cache l'input, mais le garde accessible !
+            position: absolute;
+            opacity: 0;
+            // Pour accessibilité : focus visible
+            &:focus-visible + .font-bubble {
+              box-shadow: 0 0 0 3px #dde5ff;
+            }
+          }
+          .swatch {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+            user-select: none;
+            position: relative;
+            .check-icon {
+              position: absolute;
+              opacity: 0;
+              transform: scale(0.5);
+              transition: opacity 0.2s ease, transform 0.2s ease;
 
-    .color-option {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      .swatch {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        border: 2px solid $color-light-blue;
+              &.visible {
+                opacity: 1;
+                transform: scale(1);
+              }
+            }
+          }
+        }
       }
     }
-
     .btn-group {
       display: flex;
       justify-content: flex-end;
@@ -432,6 +484,23 @@ function applySettings() {
         &.cancel {
           background: transparent;
         }
+      }
+    }
+
+    .apply-btn {
+      position: absolute;
+      bottom: -26.5px;
+      width: 140px;
+      height: 53px;
+      border-radius: 26.5px;
+      color: $color-white;
+      @include body(1);
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      &:hover {
+        transform: scale(1.05);
       }
     }
   }

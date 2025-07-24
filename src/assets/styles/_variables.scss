@@ -12,7 +12,7 @@ $color-near-black: #161932;
 $color-divider: #E3E1E1;
 $color-light-gray: #a5a6b2;
 
-// Typography
+// Typography - Polices de référence (pour preview uniquement)
 $font-primary: "Kumbh Sans", sans-serif;
 $font-secondary: "Roboto Slab", serif;
 $font-mono: "Space Mono", monospace;
@@ -47,17 +47,10 @@ $body2-line-height: 14px;
   }
 }
 
-@mixin heading($level, $font) {
-  font-family: if(
-    $font == primary,
-    $font-primary,
-    if(
-      $font == secondary,
-      $font-secondary,
-      if($font == mono, $font-mono, $font-primary)
-    )
-  );
-  font-weight: bold;
+@mixin heading($level, $font: null) {
+  // Utilise toujours la police centralisée, ignore le paramètre $font
+  font-family: var(--font-family);
+  font-weight: var(--font-weight, bold);
 
   @if $level == 1 {
     font-size: $h1-mobile-size;
@@ -87,13 +80,13 @@ $body2-line-height: 14px;
 }
 
 @mixin body($level) {
-  font-weight: bold;
+  // Utilise toujours la police centralisée
+  font-family: var(--font-family);
+  font-weight: var(--font-weight, bold);
   @if $level == 1 {
-    font-family: $font-secondary;
     font-size: $body1-size;
     line-height: $body1-line-height;
   } @else if $level == 2 {
-    font-family: $font-secondary;
     font-size: $body2-size;
     line-height: $body2-line-height;
   }

@@ -21,6 +21,7 @@
   .title {
     margin-top: 32px;
     @include title;
+    font-family: "Kumbh Sans", sans-serif;
   }
   span {
     color: white;

@@ -4,7 +4,10 @@
       v-if="activeLayout"
       layoutId="pill"
       class="pill-bg"
-      :style="{ left: `${activeLayout}px`, backgroundColor: pomodoroStore.selectedColor }"
+      :style="{
+        left: `${activeLayout}px`,
+        backgroundColor: pomodoroStore.selectedColor,
+      }"
     />
 
     <button
@@ -104,7 +107,8 @@ watch(activeIndex, () => nextTick(updateLayout));
     border: none;
     color: $color-light-blue;
     cursor: pointer;
-    font-weight: 600;
+    font-family: var(--font-family);
+    font-weight: var(--font-weight, 600);
     transition: color 0.3s;
     &.active {
       color: $color-dark-blue;
