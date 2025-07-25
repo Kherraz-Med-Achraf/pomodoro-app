@@ -22,74 +22,84 @@
             <form @submit.prevent="applySettings">
               <div class="time-settings">
                 <h4>TIME (MINUTES)</h4>
-                <div class="field-group">
-                  <label>pomodoro</label>
-                  <input
-                    type="number"
-                    v-model.number="pomodoro"
-                    min="1"
-                    step="1"
-                    required
-                  />
-                  <div class="arrows">
-                    <button type="button" class="arrow up" @click="pomodoro++">
-                      <ArrowUpIcon />
-                    </button>
-                    <button
-                      type="button"
-                      class="arrow down"
-                      @click="pomodoro > 1 && pomodoro--"
-                    >
-                      <ArrowDownIcon />
-                    </button>
+                <div class="time-settings-container">
+                  <div class="field-group">
+                    <label>pomodoro</label>
+                    <input
+                      type="number"
+                      v-model.number="pomodoro"
+                      min="1"
+                      step="1"
+                      required
+                    />
+                    <div class="arrows">
+                      <button
+                        type="button"
+                        class="arrow up"
+                        @click="pomodoro++"
+                      >
+                        <ArrowUpIcon />
+                      </button>
+                      <button
+                        type="button"
+                        class="arrow down"
+                        @click="pomodoro > 1 && pomodoro--"
+                      >
+                        <ArrowDownIcon />
+                      </button>
+                    </div>
                   </div>
-                </div>
-                <div class="field-group">
-                  <label>short break</label>
-                  <input
-                    type="number"
-                    v-model.number="shortBreak"
-                    min="1"
-                    step="1"
-                    required
-                  />
-                  <div class="arrows">
-                    <button
-                      type="button"
-                      class="arrow up"
-                      @click="shortBreak++"
-                    >
-                      <ArrowUpIcon />
-                    </button>
-                    <button
-                      type="button"
-                      class="arrow down"
-                      @click="shortBreak > 1 && shortBreak--"
-                    >
-                      <ArrowDownIcon />
-                    </button>
+                  <div class="field-group">
+                    <label>short break</label>
+                    <input
+                      type="number"
+                      v-model.number="shortBreak"
+                      min="1"
+                      step="1"
+                      required
+                    />
+                    <div class="arrows">
+                      <button
+                        type="button"
+                        class="arrow up"
+                        @click="shortBreak++"
+                      >
+                        <ArrowUpIcon />
+                      </button>
+                      <button
+                        type="button"
+                        class="arrow down"
+                        @click="shortBreak > 1 && shortBreak--"
+                      >
+                        <ArrowDownIcon />
+                      </button>
+                    </div>
                   </div>
-                </div>
-                <div class="field-group">
-                  <label>long break</label>
-                  <input
-                    type="number"
-                    v-model.number="longBreak"
-                    min="1"
-                    step="1"
-                    required
-                  />
-                  <div class="arrows">
-                    <button type="button" class="arrow up" @click="longBreak++">
-                      <ArrowUpIcon />
-                    </button>
-                    <button
-                      type="button"
-                      class="arrow down"
-                      @click="longBreak--"
-                    >
-                      <ArrowDownIcon />
-                    </button>
+                  <div class="field-group">
+                    <label>long break</label>
+                    <input
+                      type="number"
+                      v-model.number="longBreak"
+                      min="1"
+                      step="1"
+                      required
+                    />
+                    <div class="arrows">
+                      <button
+                        type="button"
+                        class="arrow up"
+                        @click="longBreak++"
+                      >
+                        <ArrowUpIcon />
+                      </button>
+                      <button
+                        type="button"
+                        class="arrow down"
+                        @click="longBreak--"
+                      >
+                        <ArrowDownIcon />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -282,7 +292,6 @@ function applySettings() {
   gap: 24px;
   position: relative;
   align-items: center;
-
   .top-bar {
     width: 100%;
     display: flex;
@@ -320,58 +329,62 @@ function applySettings() {
     h4 {
       @include heading(4, primary);
       text-align: center;
-      margin-bottom: 7px;
     }
 
     .time-settings {
       display: flex;
       flex-direction: column;
       width: 100%;
-      gap: 8px;
-      .field-group {
+      gap: 15px;
+      .time-settings-container {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        position: relative;
-        label {
-          @include body(2);
-          color: $color-light-gray;
-        }
-        input {
-          @include body(1);
-          color: $color-near-black;
-          background: $color-off-white;
-          border: none;
-          border-radius: 10px;
-          height: 40px;
-          padding: 16px;
-          max-width: 140px;
-        }
-        input[type="number"] {
-          /* Chrome, Safari, Edge, Opera */
-          &::-webkit-outer-spin-button,
-          &::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-          }
-          /* Firefox */
-          -moz-appearance: textfield;
-        }
-        .arrows {
-          position: absolute;
-          right: 16px;
+        flex-direction: column;
+        gap: 8px;
+        .field-group {
           display: flex;
-          flex-direction: column;
-          button {
-            background: transparent;
+          justify-content: space-between;
+          align-items: center;
+          position: relative;
+          label {
+            @include body(2);
+            color: $color-light-gray;
+          }
+          input {
+            @include body(1);
+            color: $color-near-black;
+            background: $color-off-white;
             border: none;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            &:hover {
-              transform: scale(1.5);
+            border-radius: 10px;
+            height: 40px;
+            padding: 16px;
+            max-width: 140px;
+          }
+          input[type="number"] {
+            /* Chrome, Safari, Edge, Opera */
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+              -webkit-appearance: none;
+              margin: 0;
             }
-            &:active {
-              transform: scale(1.1);
+            /* Firefox */
+            -moz-appearance: textfield;
+          }
+          .arrows {
+            position: absolute;
+            right: 16px;
+            display: flex;
+            flex-direction: column;
+            button {
+              background: transparent;
+              border: none;
+              cursor: pointer;
+              transition: transform 0.3s ease;
+              &:hover {
+                transform: scale(1.5);
+              }
+              &:active {
+                transform: scale(1.1);
+              }
             }
           }
         }
@@ -427,7 +440,7 @@ function applySettings() {
         }
       }
       .color-options {
-        width: 100%;
+        
         display: flex;
         justify-content: center;
         align-items: center;
@@ -501,6 +514,39 @@ function applySettings() {
       transition: all 0.3s ease;
       &:hover {
         transform: scale(1.05);
+      }
+    }
+  }
+
+  @media (min-width: 768px) {
+    max-width: 540px;
+    padding: 40px;
+    form {
+      .time-settings {
+        .time-settings-container {
+          flex-direction: row;
+          gap: 20px;
+          .field-group {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+            input {
+              height: 48px;
+            }
+            .arrows {
+              bottom: 10px;
+            }
+          }
+        }
+      }
+      .choice-group {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        .color-options {
+         
+          margin-bottom: 0;
+        }
       }
     }
   }

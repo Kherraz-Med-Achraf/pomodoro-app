@@ -37,11 +37,29 @@ import { usePomodoroStore } from "@/stores/pomodoro";
 
 const pomodoroStore = usePomodoroStore();
 
-const size = 248.05;
+const size = ref(248.05);
 const strokeWidth = 8;
 
-const center = computed(() => size / 2);
-const radius = computed(() => (size - strokeWidth) / 2);
+// Fonction pour ajuster la taille selon la largeur d'écran
+const updateSize = () => {
+  if (window.innerWidth >= 768) {
+    size.value = 339;
+  } else {
+    size.value = 248.05;
+  }
+};
+
+onMounted(() => {
+  updateSize();
+  window.addEventListener("resize", updateSize);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", updateSize);
+});
+
+const center = computed(() => size.value / 2);
+const radius = computed(() => (size.value - strokeWidth) / 2);
 const circumference = computed(() => 2 * Math.PI * radius.value);
 const circOffset = computed(
   () =>
@@ -96,6 +114,20 @@ const circOffset = computed(
             letter-spacing: -10px;
           }
         }
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .pomodoro-timer {
+    width: 410px;
+    height: 410px;
+
+    .oval {
+      .oval-two {
+        width: 366px;
+        height: 366px;
       }
     }
   }
