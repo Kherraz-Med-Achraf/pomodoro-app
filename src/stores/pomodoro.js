@@ -130,29 +130,10 @@ export const usePomodoroStore = defineStore("pomodoro", () => {
 
   // ################################## Actions #######################################
 
-  // pDur, sDur, lDur sont des DURÉES EN MINUTES. Par défaut on utilise les valeurs classiques Pomodoro :
-  // 25 min pour pomodoro, 5 min pour courte pause, 15 min pour longue pause
-  function handleClickOnTimer(
-    pDur = 25,
-    sDur = 5,
-    lDur = 15,
-    shortBreakIterations = 4
-  ) {
-    // Si le premier argument est un événement (clic), on ignore les paramètres personnalisés
-    if (typeof pDur === "object" && pDur !== null) {
-      // Réaffecte les valeurs par défaut classiques
-      pDur = 25;
-      sDur = 5;
-      lDur = 15;
-      shortBreakIterations = 4;
-    }
+  // Fonction pour démarrer/arrêter le timer
+  function handleClickOnTimer() {
     // Si on est actuellement à l'arrêt, on initialise la configuration
     if (!isRunning.value) {
-      pomodoroDuration.value = pDur;
-      shortBreakDuration.value = sDur;
-      longBreakDuration.value = lDur;
-      shortBreaksBeforeLong.value = shortBreakIterations;
-
       // Détermine si l'on doit lancer un cycle automatique ou une session manuelle
       autoCycle.value = currentSession.value === "pomodoro";
 
