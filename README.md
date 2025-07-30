@@ -1,4 +1,4 @@
-# 🍅 Pomodoro Timer App
+# 🍅 Pomodoro App
 
 A clean and modern Pomodoro timer built with Vue 3 to boost productivity and focus. Features customizable work and break intervals with a sleek, minimalist design.
 
