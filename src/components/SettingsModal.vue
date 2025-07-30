@@ -300,7 +300,9 @@ function applySettings() {
     margin-bottom: 4px;
     h2 {
       @include heading(2, primary);
-      text-align: center;
+      & {
+        text-align: center;
+      }
     }
     .close-icon {
       cursor: pointer;
@@ -328,7 +330,9 @@ function applySettings() {
     }
     h4 {
       @include heading(4, primary);
-      text-align: center;
+      & {
+        text-align: center;
+      }
     }
 
     .time-settings {
@@ -367,6 +371,7 @@ function applySettings() {
               margin: 0;
             }
             /* Firefox */
+            appearance: textfield;
             -moz-appearance: textfield;
           }
           .arrows {
@@ -440,7 +445,6 @@ function applySettings() {
         }
       }
       .color-options {
-        
         display: flex;
         justify-content: center;
         align-items: center;
@@ -544,7 +548,6 @@ function applySettings() {
         justify-content: space-between;
         align-items: center;
         .color-options {
-         
           margin-bottom: 0;
         }
       }

@@ -7,9 +7,7 @@
   </div>
 </template>
 
-<script setup>
-
-</script>
+<script setup></script>
 
 <style lang="scss" scoped>
 .pomodoro-app {
@@ -21,7 +19,9 @@
   .title {
     margin-top: 32px;
     @include title;
-    font-family: "Kumbh Sans", sans-serif;
+    & {
+      font-family: "Kumbh Sans", sans-serif;
+    }
   }
   span {
     color: white;
