@@ -2,13 +2,23 @@
 
 A clean and modern Pomodoro timer built with Vue 3 to boost productivity and focus. Features customizable work and break intervals with a sleek, minimalist design.
 
+> 🎯 **Based on [Frontend Mentor Challenge](https://www.frontendmentor.io/challenges/pomodoro-app-KBFnycJ6G)**  
+> This project is my solution to the **Premium Advanced** Pomodoro App challenge from Frontend Mentor, featuring complex UI components like circular progress bars and comprehensive customization options.
+
 ## ✨ Features
 
-- **Customizable Timers**: Set your own work, short break, and long break durations
-- **Visual Progress**: Clean circular progress indicator
-- **Multiple Themes**: Choose from different color schemes
-- **Sound Notifications**: Audio alerts when sessions complete
-- **Responsive Design**: Works perfectly on desktop and mobile
+### Core Functionality
+
+- **Pomodoro Timer**: Set custom work, short break, and long break durations
+- **Circular Progress Bar**: Visual countdown with smooth animations
+- **Session Management**: Automatic transitions between work and break periods
+
+### Customization Options
+
+- **Color Themes**: Multiple color schemes (Red, Teal, Purple)
+- **Typography**: Choice of fonts (Kumbh Sans, Roboto Slab, Space Mono)
+- **Timer Settings**: Fully customizable session lengths
+- **Responsive Design**: Optimized for desktop, tablet, and mobile devices
 
 ## 🚀 Demo
 
@@ -33,6 +43,18 @@ npm run dev
 npm run build
 ```
 
+## 🏆 Challenge Details
+
+This project meets all the requirements from the [Frontend Mentor Pomodoro App Challenge](https://www.frontendmentor.io/challenges/pomodoro-app-KBFnycJ6G):
+
+- ✅ **Premium Advanced Level** challenge completion
+- ✅ Pixel-perfect design implementation
+- ✅ Fully responsive across all device sizes
+- ✅ Interactive settings with real-time updates
+- ✅ Complex circular progress bar animation
+- ✅ Modern Vue 3 + Vite architecture
+
 ---
 
-**Portfolio Project by [KMA-DEV](https://github.com/Kherraz-Med-Achraf)**
+**Portfolio Project by [KMA-DEV](https://github.com/Kherraz-Med-Achraf)**  
+_Frontend Mentor Challenge Solution_
