@@ -1,29 +1,60 @@
-# pomodoro-app
+# 🍅 Pomodoro Timer App
 
-This template should help get you started developing with Vue 3 in Vite.
+A clean and modern Pomodoro timer built with Vue 3 to boost productivity and focus. Features customizable work and break intervals with a sleek, minimalist design.
 
-## Recommended IDE Setup
+> 🎯 **Based on [Frontend Mentor Challenge](https://www.frontendmentor.io/challenges/pomodoro-app-KBFnycJ6G)**  
+> This project is my solution to the **Premium Advanced** Pomodoro App challenge from Frontend Mentor, featuring complex UI components like circular progress bars and comprehensive customization options.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## ✨ Features
 
-## Customize configuration
+### Core Functionality
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+- **Pomodoro Timer**: Set custom work, short break, and long break durations
+- **Circular Progress Bar**: Visual countdown with smooth animations
+- **Session Management**: Automatic transitions between work and break periods
 
-## Project Setup
+### Customization Options
 
-```sh
+- **Color Themes**: Multiple color schemes (Red, Teal, Purple)
+- **Typography**: Choice of fonts (Kumbh Sans, Roboto Slab, Space Mono)
+- **Timer Settings**: Fully customizable session lengths
+- **Responsive Design**: Optimized for desktop, tablet, and mobile devices
+
+## 🚀 Demo
+
+[Live Demo](https://your-pomodoro-app.netlify.app) _(Replace with your actual URL)_
+
+## 🛠️ Built With
+
+- **Vue 3** - Progressive JavaScript framework
+- **Vite** - Fast build tool and dev server
+- **SCSS** - Enhanced CSS with variables and mixins
+
+## 🏃‍♂️ Quick Start
+
+```bash
+# Install dependencies
 npm install
-```
 
-### Compile and Hot-Reload for Development
-
-```sh
+# Start development server
 npm run dev
-```
 
-### Compile and Minify for Production
-
-```sh
+# Build for production
 npm run build
 ```
+
+## 🏆 Challenge Details
+
+This project meets all the requirements from the [Frontend Mentor Pomodoro App Challenge](https://www.frontendmentor.io/challenges/pomodoro-app-KBFnycJ6G):
+
+- ✅ **Premium Advanced Level** challenge completion
+- ✅ Pixel-perfect design implementation
+- ✅ Fully responsive across all device sizes
+- ✅ Interactive settings with real-time updates
+- ✅ Complex circular progress bar animation
+- ✅ Modern Vue 3 + Vite architecture
+
+---
+
+**Portfolio Project by [KMA-DEV](https://github.com/Kherraz-Med-Achraf)**  
+_Frontend Mentor Challenge Solution_
